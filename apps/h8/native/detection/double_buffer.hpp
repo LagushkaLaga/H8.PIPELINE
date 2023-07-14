@@ -68,12 +68,14 @@ class DoubleBuffer
           m_cv.notify_one();
         }
 
-    private:
-        void swap_state() {
-            m_state = (State::WRITE == m_state) ? State::READ : State::WRITE;
+      private:
+        void swap_state()
+        {
+          m_state = (State::WRITE == m_state) ? State::READ : State::WRITE;
         }
 
-        enum class State {
+        enum class State
+        {
             READ = 0,
             WRITE = 1,
         };
@@ -81,12 +83,12 @@ class DoubleBuffer
         State m_state;
         std::condition_variable m_cv;
         std::mutex m_mutex;
-        std::vector<uint8_t> m_buffer;
+        std::vector< uint8_t > m_buffer;
     };
 
     SafeBuffer m_first_buffer;
     SafeBuffer m_second_buffer;
 
-    SafeBuffer *m_write_ptr;
-    SafeBuffer *m_read_ptr;
+    SafeBuffer * m_write_ptr;
+    SafeBuffer * m_read_ptr;
 };
