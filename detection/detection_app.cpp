@@ -2,7 +2,6 @@
 #include "rtps-work.hpp"
 
 #include <fstream>
-#include <istream>
 
 hailo_status create_feature(hailo_output_vstream vstream, std::shared_ptr< FeatureData > & feature)
 {
@@ -343,8 +342,8 @@ int main()
 {
   std::ifstream rtps_file;
   rtps_file.open("rtps.txt");
-  using cam = rtps::Camera;
-  std::vector< cam > rtps_cams = rtps::read_rtps(rtps_file);
+  using cam = Camera;
+  std::vector< cam > rtps_cams = read_rtps(rtps_file);
 
   for (auto ins = rtps_cams.begin(); ins != rtps_cams.end(); ins++)
   {

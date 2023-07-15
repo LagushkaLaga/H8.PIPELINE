@@ -1,6 +1,6 @@
 #include "rtps-work.hpp"
 
-std::vector< rtps::Camera > rtps::read_rtps(std::istream & in)
+std::vector< Camera > read_rtps(std::istream & in)
 {
   std::vector< Camera > result;
   while (in)

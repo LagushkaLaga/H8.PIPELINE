@@ -1,20 +1,14 @@
-#ifndef RTPS_WORK_HPP
-#define RTPS_WORK_HPP
+#pragma once
 
 #include <string>
 #include <istream>
 #include <vector>
 
-namespace rtps
+struct Camera
 {
-  struct Camera
-  {
-    unsigned id;
-    std::string name;
-    std::string address;
-  };
+  unsigned id;
+  std::string name;
+  std::string address;
+};
   
-  std::vector< Camera > read_rtps(std::istream & in);
-}
-
-#endif
+std::vector< Camera > read_rtps(std::istream & in);

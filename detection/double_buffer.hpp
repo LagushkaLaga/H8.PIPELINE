@@ -1,5 +1,4 @@
-#ifndef DOUBLE_BUFFER_HPP
-#define DOUBLE_BUFFER_HPP
+#pragma once
 
 #include <stdint.h>
 #include <vector>
@@ -93,5 +92,3 @@ class DoubleBuffer
     SafeBuffer * m_write_ptr;
     SafeBuffer * m_read_ptr;
 };
-
-#endif
