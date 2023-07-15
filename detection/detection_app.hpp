@@ -5,7 +5,8 @@
 #include "hailo_tensors.hpp"
 #include "hailomat.hpp"
 #include "overlay.hpp"
-#include "highgui.h"
+
+#include <highgui.h>
 
 #include <algorithm>
 #include <future>
