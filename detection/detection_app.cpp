@@ -338,8 +338,8 @@ hailo_status get_images(std::vector< HailoRGBMat > & input_images, const size_t 
 }
 
 Camera::Camera(std::string name, std::string url):
-  name_(name),
-  cam_(url)
+  cam_(url),
+  name_(name)
 {}
 
 cv::Mat Camera::read_frame()
