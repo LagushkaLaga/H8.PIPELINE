@@ -1,5 +1,8 @@
 #include "detection_app.hpp"
+#include "rtps-work.hpp"
 
+#include <fstream>
+#include <istream>
 
 hailo_status create_feature(hailo_output_vstream vstream, std::shared_ptr< FeatureData > & feature)
 {
@@ -12,7 +15,7 @@ hailo_status create_feature(hailo_output_vstream vstream, std::shared_ptr< Featu
   }
 
   size_t output_frame_size = 0;
-  status = hailo_get_output_vstream_frame_size(vstream, &output_frame_size);
+  status = hailo_get_output_vstream_frame_size(vstream, & output_frame_size);
   if (HAILO_SUCCESS != status)
   {
     std::cerr << "Failed getting output virtual stream frame size with status = " << status << std::endl;
@@ -77,7 +80,7 @@ hailo_status post_processing_all(std::vector< std::shared_ptr< FeatureData > > &
   return status;
 }
 
-hailo_status write_image(HailoRGBMat & image, HailoROIPtr roi)
+hailo_status write_image(HailoRGBMat & image, HailoROIPtr roi, std::string )
 {
   std::string file_name = image.get_name();
   auto draw_status = draw_all(image, roi, true);
@@ -338,7 +341,18 @@ hailo_status get_images(std::vector< HailoRGBMat > & input_images, const size_t 
 
 int main()
 {
-  std::vector< HailoRGBMat > input_images;
+  std::ifstream rtps_file;
+  rtps_file.open("rtps.txt");
+  using cam = rtps::Camera;
+  std::vector< cam > rtps_cams = rtps::read_rtps(rtps_file);
+
+  for (auto ins = rtps_cams.begin(); ins != rtps_cams.end(); ins++)
+  {
+    auto cm = * ins;
+    std::cout << cm.id << " " << cm.name << " " << cm.address << "\n";
+  }
+
+  /*std::vector< HailoRGBMat > input_images;
   input_images.reserve(INPUT_FILES_COUNT);
   auto status = get_images(input_images, INPUT_FILES_COUNT, YOLOV5M_IMAGE_WIDTH, YOLOV5M_IMAGE_HEIGHT);
   if (HAILO_SUCCESS != status)
@@ -353,6 +367,6 @@ int main()
     std::cerr << "Inference failed with status = " << status << std::endl;
     return status;
   }
-
+  */
   return HAILO_SUCCESS;
 }
