@@ -344,6 +344,7 @@ std::vector< Camera > read_rtps(std::istream & in)
   {
     Camera temp;
     in >> temp.id >> temp.name >> temp.address;
+    if (!in) break;
     result.push_back(temp);
   }
   return result;
