@@ -345,7 +345,7 @@ Camera::Camera(std::string name, std::string url):
 cv::Mat Camera::read_frame()
 {
   cv::Mat temp;
-  cam_->read(temp);
+  cam_.read(temp);
   return temp;
 }
 
