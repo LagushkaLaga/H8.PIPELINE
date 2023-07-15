@@ -359,8 +359,9 @@ std::vector< Camera > read_rtps(std::istream & in)
   std::vector< Camera > result;
   while (in)
   {
-    Camera temp;
-    in >> temp.name >> temp.address;
+    std::string name, url;
+    in >> name >> url;
+    Camera temp(name, url);
     if (!in) break;
     result.push_back(temp);
   }
