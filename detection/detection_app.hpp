@@ -64,15 +64,24 @@ hailo_status write_image(HailoRGBMat & image, HailoROIPtr roi);
 hailo_status write_txt_file(HailoROIPtr roi, std::string file_name);
 hailo_status write_all(hailo_input_vstream input_vstream, std::vector< HailoRGBMat > & input_images);
 hailo_status read_all(hailo_output_vstream output_vstream, const size_t frames_count, std::shared_ptr< FeatureData > feature);
-hailo_status run_inference_threads(hailo_input_vstream input_vstream, hailo_output_vstream * output_vstreams,
-                                   const size_t output_vstreams_size, std::vector< HailoRGBMat > & input_images);
+hailo_status run_inference_threads(
+    hailo_input_vstream input_vstream,
+    hailo_output_vstream * output_vstreams,
+    const size_t output_vstreams_size,
+    std::vector< HailoRGBMat > & input_images
+  );
 hailo_status infer(std::vector< HailoRGBMat > & input_images);
 hailo_status get_images(std::vector< HailoRGBMat > & input_images, const size_t inputs_count, int image_width, int image_height);
 
-struct Camera
+class Camera
 {
-  std::string name;
-  std::string address;
+  public:
+    Camera(std::string name, std::string url);
+    cv::Mat read_frame();
+    bool is_open() const;
+  private:
+    cv::VideoCapture cam_;
+    std::string name_;
 };
 
 std::vector< Camera > read_rtps(std::istream & in);

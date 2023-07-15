@@ -172,7 +172,7 @@ hailo_status run_inference_threads(
     std::vector< HailoRGBMat > & input_images
   )
 {
-  std::vector<std::shared_ptr<FeatureData>> features;
+  std::vector< std::shared_ptr< FeatureData > > features;
 
   features.reserve(output_vstreams_size);
   for (size_t i = 0; i < output_vstreams_size; i++)
@@ -293,7 +293,7 @@ hailo_status infer(std::vector< HailoRGBMat > & input_images)
   status = hailo_create_output_vstreams(network_group, output_vstream_params, output_vstreams_size, output_vstreams);
   REQUIRE_SUCCESS(status, l_release_input_vstream, "Failed creating output virtual streams");
 
-  status = hailo_activate_network_group(network_group, NULL, &activated_network_group);
+  status = hailo_activate_network_group(network_group, NULL, & activated_network_group);
   REQUIRE_SUCCESS(status, l_release_output_vstream, "Failed activating network group");
 
   status = run_inference_threads(input_vstreams[0], output_vstreams, output_vstreams_size, input_images);
@@ -335,6 +335,23 @@ hailo_status get_images(std::vector< HailoRGBMat > & input_images, const size_t 
     input_images.emplace_back(image);
   }
   return HAILO_SUCCESS;
+}
+
+Camera::Camera(std::string name, std::string url):
+  name_(name),
+  cam_(url)
+{}
+
+cv::Mat Camera::read_frame()
+{
+  cv::Mat temp;
+  cam_->read(temp);
+  return temp;
+}
+
+bool Camera::is_open() const
+{
+  return cam_.isOpened();
 }
 
 std::vector< Camera > read_rtps(std::istream & in)
