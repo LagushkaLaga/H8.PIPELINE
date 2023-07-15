@@ -6,13 +6,12 @@
 #include "hailomat.hpp"
 #include "overlay.hpp"
 
-#include <highgui.h>
-
 #include <algorithm>
 #include <future>
 #include <stdio.h>
 #include <stdlib.h>
 #include <opencv2/opencv.hpp>
+#include <opencv2/videoio.hpp>
 #include <fstream>
 #include <iostream>
 #include <functional>
