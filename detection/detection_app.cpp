@@ -1,5 +1,4 @@
 #include "detection_app.hpp"
-#include "rtps-work.hpp"
 
 #include <fstream>
 
@@ -336,6 +335,18 @@ hailo_status get_images(std::vector< HailoRGBMat > & input_images, const size_t 
     input_images.emplace_back(image);
   }
   return HAILO_SUCCESS;
+}
+
+std::vector< Camera > read_rtps(std::istream & in)
+{
+  std::vector< Camera > result;
+  while (in)
+  {
+    Camera temp;
+    in >> temp.id >> temp.name >> temp.address;
+    result.push_back(temp);
+  }
+  return result;
 }
 
 int main()

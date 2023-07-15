@@ -68,3 +68,12 @@ hailo_status run_inference_threads(hailo_input_vstream input_vstream, hailo_outp
                                    const size_t output_vstreams_size, std::vector< HailoRGBMat > & input_images);
 hailo_status infer(std::vector< HailoRGBMat > & input_images);
 hailo_status get_images(std::vector< HailoRGBMat > & input_images, const size_t inputs_count, int image_width, int image_height);
+
+struct Camera
+{
+  unsigned id;
+  std::string name;
+  std::string address;
+};
+
+std::vector< Camera > read_rtps(std::istream & in);
