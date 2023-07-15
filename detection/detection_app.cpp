@@ -247,16 +247,16 @@ hailo_status infer(std::vector< HailoRGBMat > & input_images)
   hailo_input_vstream input_vstreams[INPUT_COUNT] = {NULL};
   hailo_output_vstream output_vstreams[OUTPUT_COUNT] = {NULL};
 
-  status = hailo_create_pcie_device(NULL, &device);
+  status = hailo_create_pcie_device(NULL, & device);
   REQUIRE_SUCCESS(status, l_exit, "Failed to create pcie_device");
 
-  status = hailo_create_hef_file(&hef, HEF_FILE);
+  status = hailo_create_hef_file(& hef, HEF_FILE);
   REQUIRE_SUCCESS(status, l_release_device, "Failed reading hef file");
 
-  status = hailo_init_configure_params(hef, HAILO_STREAM_INTERFACE_PCIE, &config_params);
+  status = hailo_init_configure_params(hef, HAILO_STREAM_INTERFACE_PCIE, & config_params);
   REQUIRE_SUCCESS(status, l_release_hef, "Failed initializing configure parameters");
 
-  status = hailo_configure_device(device, hef, &config_params, &network_group, &network_group_size);
+  status = hailo_configure_device(device, hef, &config_params, & network_group, & network_group_size);
   REQUIRE_SUCCESS(status, l_release_hef, "Failed configure devcie from hef");
   REQUIRE_ACTION(network_group_size == 1, status = HAILO_INVALID_ARGUMENT, l_release_hef, "Invalid network group size");
 
@@ -343,7 +343,7 @@ std::vector< Camera > read_rtps(std::istream & in)
   while (in)
   {
     Camera temp;
-    in >> temp.id >> temp.name >> temp.address;
+    in >> temp.name >> temp.address;
     if (!in) break;
     result.push_back(temp);
   }
@@ -357,13 +357,7 @@ int main()
   using cam = Camera;
   std::vector< cam > rtps_cams = read_rtps(rtps_file);
 
-  for (auto ins = rtps_cams.begin(); ins != rtps_cams.end(); ins++)
-  {
-    auto cm = * ins;
-    std::cout << cm.id << " " << cm.name << " " << cm.address << "\n";
-  }
-
-  /*std::vector< HailoRGBMat > input_images;
+  std::vector< HailoRGBMat > input_images;
   input_images.reserve(INPUT_FILES_COUNT);
   auto status = get_images(input_images, INPUT_FILES_COUNT, YOLOV5M_IMAGE_WIDTH, YOLOV5M_IMAGE_HEIGHT);
   if (HAILO_SUCCESS != status)
@@ -378,6 +372,6 @@ int main()
     std::cerr << "Inference failed with status = " << status << std::endl;
     return status;
   }
-  */
+  
   return HAILO_SUCCESS;
 }

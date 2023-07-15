@@ -71,7 +71,6 @@ hailo_status get_images(std::vector< HailoRGBMat > & input_images, const size_t 
 
 struct Camera
 {
-  unsigned id;
   std::string name;
   std::string address;
 };
