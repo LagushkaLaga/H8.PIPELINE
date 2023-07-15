@@ -78,7 +78,7 @@ hailo_status post_processing_all(std::vector< std::shared_ptr< FeatureData > > &
   return status;
 }
 
-hailo_status write_image(HailoRGBMat & image, HailoROIPtr roi, std::string )
+hailo_status write_image(HailoRGBMat & image, HailoROIPtr roi)
 {
   std::string file_name = image.get_name();
   auto draw_status = draw_all(image, roi, true);
