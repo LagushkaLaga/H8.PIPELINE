@@ -79,6 +79,7 @@ class Camera
   public:
     Camera(std::string name, std::string url);
     cv::Mat read_frame();
+    std::string & get_name() const;
     bool is_open() const;
   private:
     cv::VideoCapture cam_;
@@ -86,3 +87,4 @@ class Camera
 };
 
 std::vector< Camera > read_rtps(std::istream & in);
+std::vector< HailoRGBMat > read_frames(std::vector< Camera > & source);

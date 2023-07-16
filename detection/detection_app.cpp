@@ -349,6 +349,11 @@ cv::Mat Camera::read_frame()
   return temp;
 }
 
+std::string & Camera::get_name() const
+{
+  return name_;
+}
+
 bool Camera::is_open() const
 {
   return cam_.isOpened();
@@ -364,6 +369,36 @@ std::vector< Camera > read_rtps(std::istream & in)
     Camera temp(name, url);
     if (!in) break;
     result.push_back(temp);
+  }
+  return result;
+}
+
+std::vector< HailoRGBMat > read_frames(std::vector< Camera > & source)
+{
+  std::vector< HailoRGBMat > result;
+  for (auto ins = source.begin(); ins != source.end(); ins++)
+  {
+    std::string file_name = "image" + std::to_string(i);
+    std::string file_path = "input_images/" + file_name + ".bmp";
+    cv::Mat bgr_mat = ins->read_frame();
+    if (bgr_mat.empty())
+    {
+      std::cerr << "Failed reading file: " << file_path << std::endl;
+      return HAILO_OPEN_FILE_FAILURE;
+    }
+
+    if ((image_width != bgr_mat.cols) || (image_height != bgr_mat.rows))
+    {
+      std::cerr << "Input image '" << file_path << "' has the wrong size! Size should be"
+                << image_width << "x" << image_height << ", received: " << bgr_mat.cols << "x" << bgr_mat.rows
+                << std::endl;
+      return HAILO_INVALID_ARGUMENT;
+    }
+
+    cv::Mat rgb_mat;
+    cv::cvtColor(bgr_mat, rgb_mat, cv::COLOR_BGR2RGB);
+    HailoRGBMat image = HailoRGBMat(rgb_mat, file_name);
+    result.push_back(image);
   }
   return result;
 }
