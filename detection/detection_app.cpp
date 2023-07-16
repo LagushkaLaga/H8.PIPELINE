@@ -378,7 +378,7 @@ std::vector< HailoRGBMat > read_frames(std::vector< Camera > & source)
   std::vector< HailoRGBMat > result;
   for (auto ins = source.begin(); ins != source.end(); ins++)
   {
-    std::string file_name = "image" + std::to_string(i);
+    std::string file_name = ins->get_name();
     std::string file_path = "input_images/" + file_name + ".bmp";
     cv::Mat bgr_mat = ins->read_frame();
     cv::Mat rgb_mat;
