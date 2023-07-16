@@ -349,7 +349,7 @@ cv::Mat Camera::read_frame()
   return temp;
 }
 
-std::string & Camera::get_name() const
+std::string Camera::get_name()
 {
   return name_;
 }

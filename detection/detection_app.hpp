@@ -83,7 +83,7 @@ class Camera
   public:
     Camera(std::string name, std::string url);
     cv::Mat read_frame();
-    std::string & get_name() const;
+    std::string get_name();
     bool is_open() const;
   private:
     cv::VideoCapture cam_;
