@@ -89,6 +89,12 @@ class Camera
     std::string name_;
 };
 
+struct Frame
+{
+  HailoRGBMat frame;
+  std::string path;
+};
+
 std::vector< Camera > read_rtps(std::istream & in);
-std::vector< HailoRGBMat > read_frames(std::vector< Camera > & source);
-bool custom_infer(std::vector< HailoRGBMat > & input_images);
+std::vector< Frame > read_frames(std::vector< Camera > & source);
+bool custom_infer(std::vector< Frame > & input_images);
