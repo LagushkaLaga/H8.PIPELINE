@@ -1,6 +1,23 @@
 #include "detection_app.hpp"
 
 #include <fstream>
+#include <ctime>
+#include <unistd.h>
+
+std::string gen_random(unsigned len) {
+  static const char alphanum[] =
+      "0123456789"
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+      "abcdefghijklmnopqrstuvwxyz";
+  std::string tmp_s;
+  tmp_s.reserve(len);
+
+  for (unsigned i = 0; i < len; ++i) {
+    tmp_s += alphanum[rand() % (sizeof(alphanum) - 1)];
+  }
+
+  return tmp_s;
+}
 
 hailo_status create_feature(hailo_output_vstream vstream, std::shared_ptr< FeatureData > & feature)
 {
@@ -71,7 +88,7 @@ hailo_status post_processing_all(std::vector< std::shared_ptr< FeatureData > > &
       feature->m_buffers.release_read_buffer();
     }
 
-    status = write_txt_file(roi, input_images[i].get_name());
+    //status = write_txt_file(roi, input_images[i].get_name());
 
     status = write_image(input_images[i], roi);
   }
@@ -90,12 +107,7 @@ hailo_status write_image(HailoRGBMat & image, HailoROIPtr roi)
   cv::Mat write_mat;
   cv::cvtColor(image.get_mat(), write_mat, cv::COLOR_RGB2BGR);
 
-  auto write_status = cv::imwrite("output_images/" + file_name + ".bmp", write_mat);
-  if (true != write_status)
-  {
-    std::cerr << "Failed dumping image '" << file_name << std::endl;
-    return HAILO_FILE_OPERATION_FAILURE;
-  }
+  auto write_status = cv::imwrite("output_images/" + file_name + "/" + gen_random(20) + ".bmp", write_mat);
   return HAILO_SUCCESS;
 }
 
@@ -344,18 +356,17 @@ std::vector< Camera > read_rtps(std::istream & in)
   return result;
 }
 
-std::vector< Frame > read_frames(std::vector< Camera > & source)
+std::vector< HailoRGBMat > read_frames(std::vector< Camera > & source)
 {
-  std::vector< Frame > result;
+  std::vector< HailoRGBMat > result;
   for (auto ins = source.begin(); ins != source.end(); ins++)
   {
     std::string file_name = ins->get_name();
-    std::string file_path = "input_images/" + file_name + ".bmp";
     cv::Mat bgr_mat = ins->read_frame();
     cv::Mat rgb_mat;
     cv::cvtColor(bgr_mat, rgb_mat, cv::COLOR_BGR2RGB);
     HailoRGBMat image = HailoRGBMat(rgb_mat, file_name);
-    result.push_back({image, ins->get_name()});
+    result.push_back(image);
   }
   return result;
 }
@@ -370,7 +381,7 @@ int main()
   auto status = true;
   while (status)
   {
-    std::vector< Frame > input_frames = read_frames(rtps_cams);
+    std::vector< HailoRGBMat > input_frames = read_frames(rtps_cams);
     status = custom_infer(input_frames);
   }
 
