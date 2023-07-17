@@ -188,7 +188,7 @@ hailo_status run_inference_threads(
   }
 
   const size_t frames_count = input_images.size();
-  std::vector<std::future<hailo_status>> output_threads;
+  std::vector< std::future< hailo_status > > output_threads;
   output_threads.reserve(output_vstreams_size);
   for (size_t i = 0; i < output_vstreams_size; i++)
   {
@@ -373,6 +373,6 @@ int main()
     std::vector< HailoRGBMat > input_frames = read_frames(rtps_cams);
     status = custom_infer(input_frames);
   }
-  
+
   return HAILO_SUCCESS;
 }
