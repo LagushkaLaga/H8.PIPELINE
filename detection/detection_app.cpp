@@ -231,7 +231,7 @@ hailo_status run_inference_threads(
   return HAILO_SUCCESS;
 }
 
-hailo_status infer(std::vector< HailoRGBMat > & input_images)
+bool custom_infer(std::vector< HailoRGBMat > & input_images)
 {
   hailo_status status = HAILO_UNINITIALIZED;
   hailo_device device = NULL;
@@ -308,35 +308,6 @@ hailo_status infer(std::vector< HailoRGBMat > & input_images)
   l_exit : return status;
 }
 
-hailo_status get_images(std::vector< HailoRGBMat > & input_images, const size_t inputs_count, int image_width, int image_height)
-{
-  for (uint32_t i = 0; i < inputs_count; i++)
-  {
-    std::string file_name = "image" + std::to_string(i);
-    std::string file_path = "input_images/" + file_name + ".bmp";
-    cv::Mat bgr_mat = cv::imread(file_path);
-    if (bgr_mat.empty())
-    {
-      std::cerr << "Failed reading file: " << file_path << std::endl;
-      return HAILO_OPEN_FILE_FAILURE;
-    }
-
-    if ((image_width != bgr_mat.cols) || (image_height != bgr_mat.rows))
-    {
-      std::cerr << "Input image '" << file_path << "' has the wrong size! Size should be"
-                << image_width << "x" << image_height << ", received: " << bgr_mat.cols << "x" << bgr_mat.rows
-                << std::endl;
-      return HAILO_INVALID_ARGUMENT;
-    }
-
-    cv::Mat rgb_mat;
-    cv::cvtColor(bgr_mat, rgb_mat, cv::COLOR_BGR2RGB);
-    HailoRGBMat image = HailoRGBMat(rgb_mat, file_name);
-    input_images.emplace_back(image);
-  }
-  return HAILO_SUCCESS;
-}
-
 Camera::Camera(std::string name, std::string url):
   cam_(url),
   name_(name)
@@ -393,23 +364,14 @@ int main()
 {
   std::ifstream rtps_file;
   rtps_file.open("rtps.txt");
-  using cam = Camera;
-  std::vector< cam > rtps_cams = read_rtps(rtps_file);
+  std::vector< Camera > rtps_cams = read_rtps(rtps_file);
+  rtps_file.close();
 
-  std::vector< HailoRGBMat > input_images;
-  input_images.reserve(INPUT_FILES_COUNT);
-  auto status = get_images(input_images, INPUT_FILES_COUNT, YOLOV5M_IMAGE_WIDTH, YOLOV5M_IMAGE_HEIGHT);
-  if (HAILO_SUCCESS != status)
+  auto status = true;
+  while (status)
   {
-    std::cerr << "get_images() failed to with status = " << status << std::endl;
-    return status;
-  }
-
-  status = infer(input_images);
-  if (HAILO_SUCCESS != status)
-  {
-    std::cerr << "Inference failed with status = " << status << std::endl;
-    return status;
+    std::vector< HailoRGBMat > input_frames = read_frames(rtps_cams);
+    status = custom_infer(input_frames);
   }
   
   return HAILO_SUCCESS;

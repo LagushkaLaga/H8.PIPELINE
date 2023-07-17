@@ -76,8 +76,6 @@ hailo_status run_inference_threads(
     const size_t output_vstreams_size,
     std::vector< HailoRGBMat > & input_images
   );
-hailo_status infer(std::vector< HailoRGBMat > & input_images);
-hailo_status get_images(std::vector< HailoRGBMat > & input_images, const size_t inputs_count, int image_width, int image_height);
 
 class Camera
 {
@@ -93,3 +91,4 @@ class Camera
 
 std::vector< Camera > read_rtps(std::istream & in);
 std::vector< HailoRGBMat > read_frames(std::vector< Camera > & source);
+bool custom_infer(std::vector< HailoRGBMat > & input_images);
