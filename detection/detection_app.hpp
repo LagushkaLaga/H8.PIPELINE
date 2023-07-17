@@ -10,17 +10,17 @@
 #include <future>
 #include <stdio.h>
 #include <stdlib.h>
-#include <opencv2/opencv.hpp>
-#include <opencv2/core/core.hpp>
-#include <opencv2/videoio.hpp>
-#include <opencv2/videoio/videoio.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/video.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
 #include <fstream>
 #include <iostream>
 #include <functional>
 #include <string>
+
+#include <opencv2/opencv.hpp>
+#include <opencv2/core.hpp>
+#include <opencv2/videoio.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/video.hpp>
+#include <opencv2/imgproc.hpp>
 
 #define INPUT_COUNT (1)
 #define OUTPUT_COUNT (3)
