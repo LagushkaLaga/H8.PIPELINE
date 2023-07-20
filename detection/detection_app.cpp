@@ -243,7 +243,7 @@ hailo_status run_inference_threads(
   return HAILO_SUCCESS;
 }
 
-bool custom_infer(std::vector< HailoRGBMat > & input_images)
+hailo_status custom_infer(std::vector< HailoRGBMat > & input_images)
 {
   hailo_status status = HAILO_UNINITIALIZED;
   hailo_device device = NULL;
