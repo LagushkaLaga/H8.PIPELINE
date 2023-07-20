@@ -3,28 +3,20 @@ High-performance, optimized pre-trained template AI application pipelines for sy
 
 ## DRIVER LAUNCH
 ```
-function test() {
-  console.log("bash driver-launch.sh");
-}
+bash driver-launch.sh
 ```
 
 ## BUILD
 ```
-function test() {
-  console.log("bash build.sh");
-}
+bash build.sh
 ```
 
 ## SETUP DIRECTORIES
 ```
-function test() {
-  console.log("bash setup-dir.sh");
-}
+bash setup-dir.sh
 ```
 
 ## LAUNCH
 ```
-function test() {
-  console.log("bash launch.sh");
-}
+bash launch.sh
 ```
