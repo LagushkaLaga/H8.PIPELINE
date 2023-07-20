@@ -29,6 +29,7 @@ nano ./detection/rtps.txt
 ```
 > Formating file be like:
 > $name$ $ip$
+> (see rtps.txt for more)
 
 ## SETUP DIRECTORIES
 ```bash
