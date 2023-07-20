@@ -23,6 +23,13 @@ sudo bash driver-load.sh
 bash build.sh
 ```
 
+## CONFIGURE RTPS FILE
+```bash
+nano ./detection/rtps.txt
+```
+> Formating file be like:
+> $name$ $ip$
+
 ## SETUP DIRECTORIES
 ```bash
 bash setup-dir.sh
