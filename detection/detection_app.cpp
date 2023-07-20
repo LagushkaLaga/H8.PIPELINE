@@ -378,6 +378,7 @@ std::vector< HailoRGBMat > read_frames(std::vector< Camera > & source)
 
 int main()
 {
+  std::cout << cv::getBuildInformation();
   std::ifstream rtps_file;
   rtps_file.open("rtps.txt");
   std::vector< Camera > rtps_cams = read_rtps(rtps_file);
