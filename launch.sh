@@ -1,3 +1,4 @@
 #!bin/bash
 
-./detection/build/detection_app
+cd ./detection
+./build/detection_app
