@@ -92,4 +92,4 @@ class Camera
 
 std::vector< Camera > read_rtps(std::istream & in);
 std::vector< HailoRGBMat > read_frames(std::vector< Camera > & source);
-bool custom_infer(std::vector< Frame > & input_images);
+bool custom_infer(std::vector< HailoRGBMat > & input_images);
