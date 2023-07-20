@@ -337,12 +337,12 @@ cv::Mat Camera::read_frame()
   return temp;
 }
 
-std::string Camera::get_name()
+std::string & Camera::get_name() const noexcept
 {
   return name_;
 }
 
-bool Camera::is_open() const
+bool Camera::is_open() const noexcept
 {
   return cam_.isOpened();
 }
