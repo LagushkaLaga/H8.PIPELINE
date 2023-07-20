@@ -337,7 +337,7 @@ cv::Mat Camera::read_frame()
   return temp;
 }
 
-std::string & Camera::get_name() const noexcept
+std::string & Camera::get_name() noexcept
 {
   return name_;
 }

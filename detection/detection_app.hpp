@@ -83,7 +83,7 @@ class Camera
     Camera(std::string name, std::string url);
     ~Camera();
     cv::Mat read_frame();
-    std::string & get_name() const noexcept;
+    std::string & get_name() noexcept;
     bool is_open() const noexcept;
   private:
     cv::VideoCapture cam_;
@@ -92,4 +92,4 @@ class Camera
 
 std::vector< Camera > read_rtps(std::istream & in);
 std::vector< HailoRGBMat > read_frames(std::vector< Camera > & source);
-bool custom_infer(std::vector< HailoRGBMat > & input_images);
+hailo_status custom_infer(std::vector< HailoRGBMat > & input_images);
