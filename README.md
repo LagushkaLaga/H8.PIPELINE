@@ -2,13 +2,29 @@
 High-performance, optimized pre-trained template AI application pipelines for systems using Hailo devices. Based on TAPPAS
 
 ## DRIVER LAUNCH
-``` bash driver-launch.sh ```
+```
+function test() {
+  console.log("bash driver-launch.sh");
+}
+```
 
 ## BUILD
-``` bash build.sh ```
+```
+function test() {
+  console.log("bash build.sh");
+}
+```
 
 ## SETUP DIRECTORIES
-``` bash setup-dir.sh ```
+```
+function test() {
+  console.log("bash setup-dir.sh");
+}
+```
 
 ## LAUNCH
-``` bash launch.sh ```
+```
+function test() {
+  console.log("bash launch.sh");
+}
+```
