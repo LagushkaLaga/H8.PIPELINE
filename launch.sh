@@ -1,4 +1,4 @@
 #!bin/bash
 
 cd ./detection
-./build/detection_app
+sudo ./build/detection_app

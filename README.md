@@ -15,7 +15,7 @@ git clone https://github.com/LagushkaLaga/H8.PIPELINE
 
 ## DRIVER LAUNCH
 ```bash
-bash driver-load.sh
+sudo bash driver-load.sh
 ```
 
 ## BUILD
@@ -30,5 +30,5 @@ bash setup-dir.sh
 
 ## LAUNCH
 ```bash
-bash launch.sh
+sudo bash launch.sh
 ```

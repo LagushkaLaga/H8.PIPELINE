@@ -1,3 +1,3 @@
 #!bin/bash
 
-find / "hailo_pci.ko" -exec insmod {} \;
+sudo find / "hailo_pci.ko" -exec insmod {} \;
