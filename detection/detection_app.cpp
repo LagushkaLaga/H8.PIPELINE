@@ -325,6 +325,11 @@ Camera::Camera(std::string name, std::string url):
   name_(name)
 {}
 
+Camera::~Camera()
+{
+  cam_.release();
+}
+
 cv::Mat Camera::read_frame()
 {
   cv::Mat temp;
@@ -359,10 +364,10 @@ std::vector< Camera > read_rtps(std::istream & in)
 std::vector< HailoRGBMat > read_frames(std::vector< Camera > & source)
 {
   std::vector< HailoRGBMat > result;
-  for (auto ins = source.begin(); ins != source.end(); ins++)
+  for (auto ins : source)
   {
-    std::string file_name = ins->get_name();
-    cv::Mat bgr_mat = ins->read_frame();
+    std::string file_name = ins.get_name();
+    cv::Mat bgr_mat = ins.read_frame();
     cv::Mat rgb_mat;
     cv::cvtColor(bgr_mat, rgb_mat, cv::COLOR_BGR2RGB);
     HailoRGBMat image = HailoRGBMat(rgb_mat, file_name);
@@ -378,8 +383,8 @@ int main()
   std::vector< Camera > rtps_cams = read_rtps(rtps_file);
   rtps_file.close();
 
-  auto status = true;
-  while (status)
+  auto status = HAILO_SUCCESS;
+  while (status == HAILO_SUCCESS)
   {
     std::vector< HailoRGBMat > input_frames = read_frames(rtps_cams);
     status = custom_infer(input_frames);

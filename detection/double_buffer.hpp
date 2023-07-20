@@ -54,7 +54,7 @@ class DoubleBuffer
           return m_buffer;
         }
 
-        std::vector<uint8_t> & acquire_read_buffer()
+        std::vector< uint8_t > & acquire_read_buffer()
         {
           std::unique_lock<std::mutex> lock(m_mutex);
           m_cv.wait(lock, [this]{ return (State::READ == m_state); });

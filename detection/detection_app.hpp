@@ -81,9 +81,10 @@ class Camera
 {
   public:
     Camera(std::string name, std::string url);
+    ~Camera();
     cv::Mat read_frame();
-    std::string get_name();
-    bool is_open() const;
+    std::string & get_name() const noexcept;
+    bool is_open() const noexcept;
   private:
     cv::VideoCapture cam_;
     std::string name_;
