@@ -15,7 +15,7 @@ git clone https://github.com/LagushkaLaga/H8.PIPELINE
 
 ## DRIVER LAUNCH
 ```bash
-bash driver-launch.sh
+bash driver-load.sh
 ```
 
 ## BUILD

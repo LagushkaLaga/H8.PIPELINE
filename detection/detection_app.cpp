@@ -321,7 +321,7 @@ hailo_status custom_infer(std::vector< HailoRGBMat > & input_images)
 }
 
 Camera::Camera(std::string name, std::string url):
-  cam_(url, cv::CAP_FFMPEG),
+  cam_(url),
   name_(name)
 {}
 
