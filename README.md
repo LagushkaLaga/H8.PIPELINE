@@ -8,23 +8,27 @@ High-performance, optimized pre-trained template AI application pipelines for sy
 - [TAPPAS](https://github.com/hailo-ai/tappas)
 - [OpenCV 4.x.x](https://docs.opencv.org/4.x/d7/d9f/tutorial_linux_install.html)
 > Tested on Rockchip RK3588 | Debian 12
+```bash
+git clone https://github.com/LagushkaLaga/H8.PIPELINE
+```
+
 
 ## DRIVER LAUNCH
-```
+```bash
 bash driver-launch.sh
 ```
 
 ## BUILD
-```
+```bash
 bash build.sh
 ```
 
 ## SETUP DIRECTORIES
-```
+```bash
 bash setup-dir.sh
 ```
 
 ## LAUNCH
-```
+```bash
 bash launch.sh
 ```
