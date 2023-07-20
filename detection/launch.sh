@@ -1,1 +1,0 @@
-./build/detection_app

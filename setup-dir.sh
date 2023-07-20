@@ -1,5 +1,7 @@
 #!bin/bash
 
+cd ./detection
+
 find . -name "output_images" -exec rm -dr {} \;
 
 mkdir output_images && cd output_images
