@@ -1,2 +1,8 @@
-DOOR 192.168.0.0
-ENTER 192.168.0.0
+STREET1 rtsp://1:A1B2C3D4!@192.168.1.103/media/video1
+STREET2 rtsp://1:A1B2C3D4!@192.168.1.108:554/cam/realmonitor?channel=1&subtype=0
+STREET3 rtsp://1:A1B2C3D4!@192.168.1.140:554/cam/realmonitor?channel=1&subtype=0
+STREET4 rtsp://1:A1B2C3D4!@192.168.1.220:554/cam/realmonitor?channel=1&subtype=0
+STREET1_COPY rtsp://1:A1B2C3D4!@192.168.1.103/media/video1
+STREET2_COPY rtsp://1:A1B2C3D4!@192.168.1.108:554/cam/realmonitor?channel=1&subtype=0
+STREET3_COPY rtsp://1:A1B2C3D4!@192.168.1.140:554/cam/realmonitor?channel=1&subtype=0
+STREET4_COPY rtsp://1:A1B2C3D4!@192.168.1.220:554/cam/realmonitor?channel=1&subtype=0
