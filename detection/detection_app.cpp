@@ -108,7 +108,6 @@ hailo_status write_image(HailoRGBMat & image, HailoROIPtr roi)
   std::cout << file_name << "-" << detections[0]->get_label();
   cv::Mat write_mat;
   cv::cvtColor(image.get_mat(), write_mat, cv::COLOR_RGB2BGR);
-  std::cout << file_name << 
   auto write_status = cv::imwrite("output_images/" + file_name + "/" + gen_random(20) + ".bmp", write_mat);
   return HAILO_SUCCESS;
 }
