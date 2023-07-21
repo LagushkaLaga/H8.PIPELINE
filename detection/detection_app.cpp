@@ -389,15 +389,7 @@ int main()
   while (status == HAILO_SUCCESS)
   {
     std::vector< HailoRGBMat > input_frames = read_frames(rtps_cams);
-    for (auto frame : input_frames)
-    {
-      std::string file_name = frame.get_name();
-      cv::Mat write_mat;
-      cv::cvtColor(frame.get_mat(), write_mat, cv::COLOR_RGB2BGR);
-      cv::imwrite("output_images/" + file_name + "/" + gen_random(128) + ".bmp", write_mat);
-    }
-    std::cout << "complete\n";
-   // status = custom_infer(input_frames);
+    status = custom_infer(input_frames);
   }
 
   return HAILO_SUCCESS;
