@@ -391,7 +391,7 @@ int main()
     {
       std::string file_name = frame.get_name();
       cv::Mat write_mat;
-      cv::cvtColor(image.get_mat(), write_mat, cv::COLOR_RGB2BGR);
+      cv::cvtColor(frame.get_mat(), write_mat, cv::COLOR_RGB2BGR);
       cv::imwrite("output_images/" + file_name + "/" + gen_random(20) + ".bmp", write_mat);
     }
     std::cout << "complete\n";
