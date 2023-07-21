@@ -1,8 +1,8 @@
-STREET1 rtsp://1:A1B2C3D4!@192.168.1.103/media/video1
-STREET2 rtsp://1:A1B2C3D4!@192.168.1.108:554/cam/realmonitor?channel=1&subtype=0
-STREET3 rtsp://1:A1B2C3D4!@192.168.1.140:554/cam/realmonitor?channel=1&subtype=0
-STREET4 rtsp://1:A1B2C3D4!@192.168.1.220:554/cam/realmonitor?channel=1&subtype=0
-STREET1_COPY rtsp://1:A1B2C3D4!@192.168.1.103/media/video1
-STREET2_COPY rtsp://1:A1B2C3D4!@192.168.1.108:554/cam/realmonitor?channel=1&subtype=0
-STREET3_COPY rtsp://1:A1B2C3D4!@192.168.1.140:554/cam/realmonitor?channel=1&subtype=0
-STREET4_COPY rtsp://1:A1B2C3D4!@192.168.1.220:554/cam/realmonitor?channel=1&subtype=0
+ENTER rtsp://1:A1B2C3D4!@192.168.1.103/media/video1
+DOOR rtsp://1:A1B2C3D4!@192.168.1.108:554/cam/realmonitor?channel=1&subtype=0
+GARAGE rtsp://1:A1B2C3D4!@192.168.1.140:554/cam/realmonitor?channel=1&subtype=0
+DANCE rtsp://1:A1B2C3D4!@192.168.1.220:554/cam/realmonitor?channel=1&subtype=0
+ENTERCOPY rtsp://1:A1B2C3D4!@192.168.1.103/media/video1
+DOORCOPY rtsp://1:A1B2C3D4!@192.168.1.108:554/cam/realmonitor?channel=1&subtype=0
+GARAGECOPY rtsp://1:A1B2C3D4!@192.168.1.140:554/cam/realmonitor?channel=1&subtype=0
+DANCECOPY rtsp://1:A1B2C3D4!@192.168.1.220:554/cam/realmonitor?channel=1&subtype=0
