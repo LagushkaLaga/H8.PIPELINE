@@ -335,6 +335,7 @@ cv::Mat Camera::read_frame()
 {
   cv::Mat temp;
   cam_.read(temp);
+  cv::resize(temp, temp, cv::Size(YOLOV5M_IMAGE_HEIGHT, YOLOV5M_IMAGE_WIDTH), 0, 0, cv::INTER_CUBIC);
   return temp;
 }
 
