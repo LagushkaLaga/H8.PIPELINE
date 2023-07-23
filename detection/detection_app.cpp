@@ -62,7 +62,6 @@ hailo_status post_processing_all(std::vector< std::shared_ptr< FeatureData > > &
     {
       roi->add_tensor(std::make_shared< HailoTensor >(reinterpret_cast< uint8_t * >(features[j]->m_buffers.get_read_buffer().data()), features[j]->m_vstream_info));
     }
-    std::cout << "HHHHH\t" << input_images[i].get_name() << "HHHHH\n";
 
     yolov5(roi);
     for (auto & feature : features)
@@ -87,10 +86,10 @@ hailo_status write_image(HailoRGBMat & image, HailoROIPtr roi)
   std::vector< HailoDetectionPtr > detections = hailo_common::get_hailo_detections(roi);
   if (detections.empty())
   {
-    std::cout << "EMPTY\n";
     return HAILO_SUCCESS;
   }
-  std::cout << file_name << "-" << detections[0]->get_label();
+  std::time_t result = std::time(nullptr);
+  std::cout << file_name << "\t" << detections[0]->get_label() << "\t" << std::asctime(std::localtime(&result));
   cv::Mat write_mat;
   cv::cvtColor(image.get_mat(), write_mat, cv::COLOR_RGB2BGR);
   cv::imwrite("output_images/" + file_name + "/" + gen_random(20) + ".bmp", write_mat);
@@ -341,7 +340,6 @@ int main()
   {
     std::vector< HailoRGBMat > input_frames = read_frames(rtps_cams);
     status = custom_infer(input_frames);
-    std::cout << "\tCOMPLETE\t\n";
   }
 
   return HAILO_SUCCESS;
