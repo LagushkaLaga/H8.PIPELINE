@@ -60,7 +60,7 @@ hailo_status post_processing_all(std::vector< std::shared_ptr< FeatureData > > &
     {
       roi->add_tensor(std::make_shared< HailoTensor >(reinterpret_cast< uint8_t * >(features[j]->m_buffers.get_read_buffer().data()), features[j]->m_vstream_info));
     }
-    std::cout << " LINE80 \n";
+    std::cout << "HHHHH\t" << input_images[i].get_name() << "HHHHH\n";
     yolov5(roi);
 
     for (auto & feature : features)
