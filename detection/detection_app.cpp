@@ -44,17 +44,6 @@ hailo_status create_feature(hailo_output_vstream vstream,
   return HAILO_SUCCESS;
 }
 
-  feature = std::make_shared< FeatureData >(
-      static_cast<uint32_t>(output_frame_size),
-      vstream_info.quant_info.qp_zp,
-      vstream_info.quant_info.qp_scale,
-      vstream_info.shape.width,
-      vstream_info
-    );
-
-  return HAILO_SUCCESS;
-}
-
 hailo_status dump_detected_object(const HailoDetectionPtr & detection, std::ofstream & detections_file)
 {
   if (detections_file.fail())
