@@ -1,3 +1,3 @@
 #!bin/bash
 
-sudo find / "hailo_pci.ko" -exec insmod {} \;
+insmod /home/pi/hailort-drivers/linux/pcie/hailo_pci.ko
