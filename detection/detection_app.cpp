@@ -63,22 +63,14 @@ hailo_status post_processing_all(std::vector< std::shared_ptr< FeatureData > > &
       roi->add_tensor(std::make_shared< HailoTensor >(reinterpret_cast< uint8_t * >(features[j]->m_buffers.get_read_buffer().data()), features[j]->m_vstream_info));
     }
     std::cout << "HHHHH\t" << input_images[i].get_name() << "HHHHH\n";
-    try
-    {
-      yolov5(roi);
-      for (auto & feature : features)
-      {
-        feature->m_buffers.release_read_buffer();
-      }
 
-      //status = write_txt_file(roi, input_images[i].get_name());
-
-      status = write_image(input_images[i], roi);
-    }
-    catch (...)
+    yolov5(roi);
+    for (auto & feature : features)
     {
-      std::cout << "EMPTY\n";
+      feature->m_buffers.release_read_buffer();
     }
+
+    status = write_image(input_images[i], roi);
   }
   return status;
 }
@@ -93,6 +85,11 @@ hailo_status write_image(HailoRGBMat & image, HailoROIPtr roi)
   }
   
   std::vector< HailoDetectionPtr > detections = hailo_common::get_hailo_detections(roi);
+  if (detections.empty())
+  {
+    std::cout << "EMPTY\n";
+    return HAILO_SUCCESS;
+  }
   std::cout << file_name << "-" << detections[0]->get_label();
   cv::Mat write_mat;
   cv::cvtColor(image.get_mat(), write_mat, cv::COLOR_RGB2BGR);
