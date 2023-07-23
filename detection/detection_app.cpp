@@ -88,11 +88,15 @@ hailo_status write_image(HailoRGBMat & image, HailoROIPtr roi)
   {
     return HAILO_SUCCESS;
   }
-  std::time_t result = std::time(nullptr);
-  std::cout << file_name << "\t" << detections[0]->get_label() << "\t" << std::asctime(std::localtime(&result));
-  cv::Mat write_mat;
-  cv::cvtColor(image.get_mat(), write_mat, cv::COLOR_RGB2BGR);
-  cv::imwrite("output_images/" + file_name + "/" + gen_random(20) + ".bmp", write_mat);
+  std::string label = detections[0]->get_label();
+  if (label == "person" || label == "car" || label == "motorcycle" || label == "bus" || label == "truck")
+  {
+    std::time_t result = std::time(nullptr);
+    std::cout << file_name << "\t" << detections[0]->get_label() << "\t" << std::asctime(std::localtime(&result));
+    cv::Mat write_mat;
+    cv::cvtColor(image.get_mat(), write_mat, cv::COLOR_RGB2BGR);
+    cv::imwrite("output_images/" + file_name + "/" + gen_random(20) + ".bmp", write_mat);
+  }
   return HAILO_SUCCESS;
 }
 
@@ -188,8 +192,6 @@ hailo_status run_inference_threads(
     std::cerr << "Post-processing failed with status " << pp_status << std::endl;
     return pp_status;
   }
-
-  std::cout << "Inference finished successfully" << std::endl;
 
   return HAILO_SUCCESS;
 }
