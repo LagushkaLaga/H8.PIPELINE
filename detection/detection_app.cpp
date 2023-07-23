@@ -64,15 +64,15 @@ hailo_status post_processing_all(std::vector< std::shared_ptr< FeatureData > > &
     }
     std::cout << "HHHHH\t" << input_images[i].get_name() << "HHHHH\n";
     yolov5(roi);
-
-    for (auto & feature : features)
-    {
-      feature->m_buffers.release_read_buffer();
-    }
-
-    //status = write_txt_file(roi, input_images[i].get_name());
     try
     {
+      for (auto & feature : features)
+      {
+        feature->m_buffers.release_read_buffer();
+      }
+
+      //status = write_txt_file(roi, input_images[i].get_name());
+
       status = write_image(input_images[i], roi);
     }
     catch (...)
