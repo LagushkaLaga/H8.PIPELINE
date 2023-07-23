@@ -64,7 +64,6 @@ class FeatureData
 };
 
 hailo_status create_feature(hailo_output_vstream vstream, std::shared_ptr< FeatureData > & feature);
-hailo_status dump_detected_object(const HailoDetectionPtr & detection, std::ofstream & detections_file);
 hailo_status post_processing_all(std::vector< std::shared_ptr< FeatureData > >  & features, const size_t frames_count, std::vector< HailoRGBMat > & input_images);
 hailo_status write_image(HailoRGBMat & image, HailoROIPtr roi);
 hailo_status write_txt_file(HailoROIPtr roi, std::string file_name);
