@@ -336,6 +336,7 @@ int main()
   {
     std::vector< HailoRGBMat > input_frames = read_frames(rtps_cams);
     status = custom_infer(input_frames);
+    std::cout << "\tCOMPLETE\t\n";
   }
 
   return HAILO_SUCCESS;
