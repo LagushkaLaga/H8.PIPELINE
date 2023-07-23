@@ -1,6 +1,6 @@
 #!bin/bash
 
-cd ./detection
+cd ./media/ssd
 
 find . -name "output_images" -exec rm -dr {} \;
 
