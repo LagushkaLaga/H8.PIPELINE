@@ -66,7 +66,6 @@ class FeatureData
 hailo_status create_feature(hailo_output_vstream vstream, std::shared_ptr< FeatureData > & feature);
 hailo_status post_processing_all(std::vector< std::shared_ptr< FeatureData > >  & features, const size_t frames_count, std::vector< HailoRGBMat > & input_images);
 hailo_status write_image(HailoRGBMat & image, HailoROIPtr roi);
-hailo_status write_txt_file(HailoROIPtr roi, std::string file_name);
 hailo_status write_all(hailo_input_vstream input_vstream, std::vector< HailoRGBMat > & input_images);
 hailo_status read_all(hailo_output_vstream output_vstream, const size_t frames_count, std::shared_ptr< FeatureData > feature);
 hailo_status run_inference_threads(

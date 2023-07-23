@@ -92,40 +92,6 @@ hailo_status write_image(HailoRGBMat & image, HailoROIPtr roi)
   return HAILO_SUCCESS;
 }
 
-hailo_status write_txt_file(HailoROIPtr roi, std::string file_name)
-{
-  std::vector< HailoDetectionPtr > detections = hailo_common::get_hailo_detections(roi);
-  hailo_status status = HAILO_SUCCESS;
-
-  if (detections.size() == 0)
-  {
-    std::cout << "No detections were found in file '" << file_name << "'\n";
-    return status;
-  }
-
-  auto detections_file = "output_images/" + file_name + "_detections.txt";
-  std::ofstream ofs(detections_file, std::ios::out);
-  if (ofs.fail())
-  {
-    std::cerr << "Failed opening output file: '" << detections_file << "'\n";
-    return HAILO_OPEN_FILE_FAILURE;
-  }
-
-  for (auto & detection : detections)
-  {
-    if (0 == detection->get_confidence())
-    {
-      continue;
-    }
-    status = dump_detected_object(detection, ofs);
-    if (HAILO_SUCCESS != status)
-    {
-      std::cerr << "Failed dumping detected object in output file: '" << detections_file << "'\n";
-    }
-  }
-  return status;
-}
-
 hailo_status write_all(hailo_input_vstream input_vstream, std::vector< HailoRGBMat > & input_images)
 {
   for (auto & input_image : input_images)
