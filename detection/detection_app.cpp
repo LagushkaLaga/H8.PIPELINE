@@ -19,13 +19,12 @@ std::string gen_random(unsigned len) {
   return tmp_s;
 }
 
-hailo_status create_feature(hailo_output_vstream vstream,
-                            std::shared_ptr<FeatureData> &feature)
+hailo_status create_feature(hailo_output_vstream vstream, std::shared_ptr< FeatureData > & feature)
 {
   hailo_vstream_info_t vstream_info = {};
   auto status = hailo_get_output_vstream_info(vstream, &vstream_info);
   if (HAILO_SUCCESS != status)
-    {
+  {
     std::cerr << "Failed to get output vstream info with status = " << status << std::endl;
     return status;
   }
@@ -33,33 +32,18 @@ hailo_status create_feature(hailo_output_vstream vstream,
   size_t output_frame_size = 0;
   status = hailo_get_output_vstream_frame_size(vstream, &output_frame_size);
   if (HAILO_SUCCESS != status)
-    {
+  {
     std::cerr << "Failed getting output virtual stream frame size with status = " << status << std::endl;
     return status;
   }
 
-  feature = std::make_shared<FeatureData>(static_cast<uint32_t>(output_frame_size), vstream_info.quant_info.qp_zp,
-                                          vstream_info.quant_info.qp_scale, vstream_info.shape.width, vstream_info);
-
-  return HAILO_SUCCESS;
-}
-
-hailo_status dump_detected_object(const HailoDetectionPtr & detection, std::ofstream & detections_file)
-{
-  if (detections_file.fail())
-  {
-    return HAILO_FILE_OPERATION_FAILURE;
-  }
-
-  HailoBBox bbox = detection->get_bbox();
-  detections_file << "Detection object name:          " << detection->get_label() << "\n";
-  detections_file << "Detection object id:            " << detection->get_class_id() << "\n";
-  detections_file << "Detection object confidence:    " << detection->get_confidence() << "\n";
-  detections_file << "Detection object Xmax:          " << bbox.xmax() * YOLOV5M_IMAGE_WIDTH << "\n";
-  detections_file << "Detection object Xmin:          " << bbox.xmin() * YOLOV5M_IMAGE_WIDTH << "\n";
-  detections_file << "Detection object Ymax:          " << bbox.ymax() * YOLOV5M_IMAGE_HEIGHT << "\n";
-  detections_file << "Detection object Ymin:          " << bbox.ymin() * YOLOV5M_IMAGE_HEIGHT << "\n"
-                  << std::endl;
+  feature = std::make_shared< FeatureData >(
+      static_cast< uint32_t >(output_frame_size),
+      vstream_info.quant_info.qp_zp,
+      vstream_info.quant_info.qp_scale,
+      vstream_info.shape.width,
+      vstream_info
+    );
 
   return HAILO_SUCCESS;
 }
@@ -76,7 +60,7 @@ hailo_status post_processing_all(std::vector< std::shared_ptr< FeatureData > > &
     {
       roi->add_tensor(std::make_shared< HailoTensor >(reinterpret_cast< uint8_t * >(features[j]->m_buffers.get_read_buffer().data()), features[j]->m_vstream_info));
     }
-
+    std::cout << " LINE80 \n"
     yolov5(roi);
 
     for (auto & feature : features)
