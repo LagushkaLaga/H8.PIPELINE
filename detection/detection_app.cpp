@@ -19,23 +19,30 @@ std::string gen_random(unsigned len) {
   return tmp_s;
 }
 
-hailo_status create_feature(hailo_output_vstream vstream, std::shared_ptr< FeatureData > & feature)
+hailo_status create_feature(hailo_output_vstream vstream,
+                            std::shared_ptr<FeatureData> &feature)
 {
   hailo_vstream_info_t vstream_info = {};
-  auto status = hailo_get_output_vstream_info(vstream, & vstream_info);
+  auto status = hailo_get_output_vstream_info(vstream, &vstream_info);
   if (HAILO_SUCCESS != status)
-  {
+    {
     std::cerr << "Failed to get output vstream info with status = " << status << std::endl;
     return status;
   }
 
   size_t output_frame_size = 0;
-  status = hailo_get_output_vstream_frame_size(vstream, & output_frame_size);
+  status = hailo_get_output_vstream_frame_size(vstream, &output_frame_size);
   if (HAILO_SUCCESS != status)
-  {
+    {
     std::cerr << "Failed getting output virtual stream frame size with status = " << status << std::endl;
     return status;
   }
+
+  feature = std::make_shared<FeatureData>(static_cast<uint32_t>(output_frame_size), vstream_info.quant_info.qp_zp,
+                                          vstream_info.quant_info.qp_scale, vstream_info.shape.width, vstream_info);
+
+  return HAILO_SUCCESS;
+}
 
   feature = std::make_shared< FeatureData >(
       static_cast<uint32_t>(output_frame_size),
