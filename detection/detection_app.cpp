@@ -4,7 +4,8 @@
 #include <ctime>
 #include <unistd.h>
 
-std::string gen_random(unsigned len) {
+std::string gen_random(unsigned len)
+{
   static const char alphanum[] =
       "0123456789"
       "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -12,7 +13,8 @@ std::string gen_random(unsigned len) {
   std::string tmp_s;
   tmp_s.reserve(len);
 
-  for (unsigned i = 0; i < len; ++i) {
+  for (unsigned i = 0; i < len; ++i)
+  {
     tmp_s += alphanum[rand() % (sizeof(alphanum) - 1)];
   }
 
@@ -69,8 +71,14 @@ hailo_status post_processing_all(std::vector< std::shared_ptr< FeatureData > > &
     }
 
     //status = write_txt_file(roi, input_images[i].get_name());
-
-    status = write_image(input_images[i], roi);
+    try
+    {
+      status = write_image(input_images[i], roi);
+    }
+    catch (...)
+    {
+      std::cout << "EMPTY\n";
+    }
   }
   return status;
 }
