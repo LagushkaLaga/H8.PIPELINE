@@ -24,7 +24,7 @@
 
 #define INPUT_COUNT (1)
 #define OUTPUT_COUNT (3)
-#define INPUT_FILES_COUNT (10)
+#define INPUT_FILES_COUNT (8)
 #define HEF_FILE ("yolov5m_wo_spp_60p.hef")
 #define YOLOV5M_IMAGE_WIDTH 640
 #define YOLOV5M_IMAGE_HEIGHT 640
