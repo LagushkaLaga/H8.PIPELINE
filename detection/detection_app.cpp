@@ -60,10 +60,9 @@ hailo_status post_processing_all(std::vector< std::shared_ptr< FeatureData > > &
   rtps_file.close();
   while (true)
   {
-    std::cout << "BEGIN\n";
     std::vector< HailoRGBMat > input_frames = read_frames(rtps_cams);
-    std::cout << "END\n";
     unsigned int start_time = std::clock();
+    std::cout << input_frames.size() << "\n";
     for (size_t i = 0; i < input_frames.size(); i++)
     {
       HailoROIPtr roi = std::make_shared< HailoROI >(HailoROI(HailoBBox(0.0f, 0.0f, 1.0f, 1.0f)));
@@ -77,8 +76,9 @@ hailo_status post_processing_all(std::vector< std::shared_ptr< FeatureData > > &
       {
         feature->m_buffers.release_read_buffer();
       }
-
+      std::cout << "BEGIN_WRITE\n";
       write_image(input_frames[i], roi);
+      std::cout << "END_WRITE\n";
     }
     unsigned int end_time = std::clock();
     std::cout << (double)(end_time - start_time)/CLOCKS_PER_SEC << "\n";
