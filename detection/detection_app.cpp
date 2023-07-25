@@ -64,14 +64,15 @@ hailo_status post_processing_all(std::vector< std::shared_ptr< FeatureData > > &
     unsigned int start_time = std::clock();
     for (size_t i = 0; i < input_frames.size(); i++)
     {
+      std::cout << "1\n";
       HailoROIPtr roi = std::make_shared< HailoROI >(HailoROI(HailoBBox(0.0f, 0.0f, 1.0f, 1.0f)));
+      std::cout << "2\n";
       for (uint j = 0; j < features.size(); j++)
       {
         roi->add_tensor(std::make_shared< HailoTensor >(reinterpret_cast< uint8_t * >(features[j]->m_buffers.get_read_buffer().data()), features[j]->m_vstream_info));
       }
-      std::cout << "YOLO_BEGIN\n";
+      std::cout << "3\n";
       yolov5(roi);
-      std::cout << "YOLO_END\n";
       for (auto & feature : features)
       {
         feature->m_buffers.release_read_buffer();
