@@ -58,7 +58,6 @@ hailo_status post_processing_all(std::vector< std::shared_ptr< FeatureData > > &
   rtps_file.open("rtps.txt");
   std::vector< Camera > rtps_cams = read_rtps(rtps_file);
   rtps_file.close();
-  for (auto cam : rtps_cams) std::cout << cam.get_name() << "\n";
   while (true)
   {
     std::vector< HailoRGBMat > input_frames = read_frames(rtps_cams);
@@ -77,7 +76,7 @@ hailo_status post_processing_all(std::vector< std::shared_ptr< FeatureData > > &
         feature->m_buffers.release_read_buffer();
       }
 
-      write_image(input_images[i], roi);
+      write_image(input_frames[i], roi);
     }
     unsigned int end_time = std::clock();
     std::cout << (double)(end_time - start_time)/CLOCKS_PER_SEC << "\n";
@@ -348,7 +347,11 @@ std::vector< HailoRGBMat > read_frames(std::vector< Camera > & source)
 
 int main()
 {
-  std::vector< HailoRGBMat > input_frames;
+  std::ifstream rtps_file;
+  rtps_file.open("rtps.txt");
+  std::vector< Camera > rtps_cams = read_rtps(rtps_file);
+  rtps_file.close();
+  std::vector< HailoRGBMat > input_frames = read_frames(rtps_cams);
   custom_infer(input_frames);
   return HAILO_SUCCESS;
 }
