@@ -347,6 +347,6 @@ std::vector< HailoRGBMat > read_frames(std::vector< Camera > & source)
 int main()
 {
   std::vector< HailoRGBMat > input_frames;
-  status = custom_infer(input_frames);
+  custom_infer(input_frames);
   return HAILO_SUCCESS;
 }
