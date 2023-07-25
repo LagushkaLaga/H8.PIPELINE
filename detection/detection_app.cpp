@@ -102,7 +102,7 @@ hailo_status write_image(HailoRGBMat & image, HailoROIPtr roi)
   if (label == "person" || label == "car" || label == "motorcycle" || label == "bus" || label == "truck")
   {
     std::time_t result = std::time(nullptr);
-    //std::cout << file_name << "\t" << detections[0]->get_label() << "\t" << std::asctime(std::localtime(&result));
+    std::cout << file_name << "\t" << detections[0]->get_label() << "\t" << std::asctime(std::localtime(&result));
     cv::Mat write_mat;
     cv::cvtColor(image.get_mat(), write_mat, cv::COLOR_RGB2BGR);
     cv::imwrite("/media/ssd/output_images/" + file_name + "/" + gen_random(20) + ".bmp", write_mat);
