@@ -287,6 +287,7 @@ cv::Mat Camera::read_frame()
 {
   cv::Mat temp;
   cam_.read(temp);
+  if (temp.empty()) throw;
   cv::resize(temp, temp, cv::Size(YOLOV5M_IMAGE_HEIGHT, YOLOV5M_IMAGE_WIDTH), 0, 0, cv::INTER_CUBIC);
   return temp;
 }
@@ -320,12 +321,16 @@ std::vector< HailoRGBMat > read_frames(std::vector< Camera > & source)
   std::vector< HailoRGBMat > result;
   for (auto ins : source)
   {
-    std::string file_name = ins.get_name();
-    cv::Mat bgr_mat = ins.read_frame();
-    cv::Mat rgb_mat;
-    cv::cvtColor(bgr_mat, rgb_mat, cv::COLOR_BGR2RGB);
-    HailoRGBMat image = HailoRGBMat(rgb_mat, file_name);
-    result.push_back(image);
+    try
+    {
+      std::string file_name = ins.get_name();
+      cv::Mat bgr_mat = ins.read_frame();
+      cv::Mat rgb_mat;
+      cv::cvtColor(bgr_mat, rgb_mat, cv::COLOR_BGR2RGB);
+      HailoRGBMat image = HailoRGBMat(rgb_mat, file_name);
+      result.push_back(image);
+    }
+    catch (...) {}
   }
   return result;
 }
@@ -340,8 +345,11 @@ int main()
   auto status = HAILO_SUCCESS;
   while (status == HAILO_SUCCESS)
   {
+    unsigned int start_time = std::clock();
     std::vector< HailoRGBMat > input_frames = read_frames(rtps_cams);
     status = custom_infer(input_frames);
+    unsigned int end_time = std::clock();
+    std::cout << end_time - start_time << "\n";
   }
 
   return HAILO_SUCCESS;
