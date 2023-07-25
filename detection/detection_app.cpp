@@ -63,7 +63,7 @@ hailo_status post_processing_all(std::vector< std::shared_ptr< FeatureData > > &
   {
     std::vector< HailoRGBMat > input_frames = read_frames(rtps_cams);
     unsigned int start_time = std::clock();
-    for (size_t i = 0; i < frames_count; i++)
+    for (size_t i = 0; i < input_images.size(); i++)
     {
       HailoROIPtr roi = std::make_shared< HailoROI >(HailoROI(HailoBBox(0.0f, 0.0f, 1.0f, 1.0f)));
       for (uint j = 0; j < features.size(); j++)
@@ -77,7 +77,7 @@ hailo_status post_processing_all(std::vector< std::shared_ptr< FeatureData > > &
         feature->m_buffers.release_read_buffer();
       }
 
-      status = write_image(input_images[i], roi);
+      write_image(input_images[i], roi);
     }
     unsigned int end_time = std::clock();
     std::cout << (double)(end_time - start_time)/CLOCKS_PER_SEC << "\n";
@@ -96,17 +96,15 @@ hailo_status write_image(HailoRGBMat & image, HailoROIPtr roi)
   }
   
   std::vector< HailoDetectionPtr > detections = hailo_common::get_hailo_detections(roi);
-  std::cout << "WRITE\n";
   if (detections.empty())
   {
-    std::cout << "EMPTY\n";
     return HAILO_SUCCESS;
   }
   std::string label = detections[0]->get_label();
   if (label == "person" || label == "car" || label == "motorcycle" || label == "bus" || label == "truck")
   {
-    std::time_t result = std::time(nullptr);
-    std::cout << file_name << "\t" << label << "\t" << std::asctime(std::localtime(&result));
+    //std::time_t result = std::time(nullptr);
+    //std::cout << file_name << "\t" << label << "\t" << std::asctime(std::localtime(&result));
     cv::Mat write_mat;
     cv::cvtColor(image.get_mat(), write_mat, cv::COLOR_RGB2BGR);
     cv::imwrite("/media/ssd/output_images/" + file_name + "/" + gen_random(20) + ".bmp", write_mat);
