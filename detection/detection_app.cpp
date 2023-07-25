@@ -52,36 +52,24 @@ hailo_status create_feature(hailo_output_vstream vstream, std::shared_ptr< Featu
 
 hailo_status post_processing_all(std::vector< std::shared_ptr< FeatureData > > & features, const size_t frames_count, std::vector< HailoRGBMat > & input_images)
 {
-  std::sort(features.begin(), features.end(), & FeatureData::sort_tensors_by_size);
   auto status = HAILO_SUCCESS;
-  std::ifstream rtps_file;
-  rtps_file.open("rtps.txt");
-  std::vector< Camera > rtps_cams = read_rtps(rtps_file);
-  rtps_file.close();
-  while (true)
-  {
-    std::vector< HailoRGBMat > input_frames = read_frames(rtps_cams);
-    unsigned int start_time = std::clock();
-    for (size_t i = 0; i < input_frames.size(); i++)
-    {
-      std::cout << "1\n";
-      HailoROIPtr roi = std::make_shared< HailoROI >(HailoROI(HailoBBox(0.0f, 0.0f, 1.0f, 1.0f)));
-      std::cout << "2\n";
-      for (uint j = 0; j < features.size(); j++)
-      {
-        roi->add_tensor(std::make_shared< HailoTensor >(reinterpret_cast< uint8_t * >(features[j]->m_buffers.get_read_buffer().data()), features[j]->m_vstream_info));
-      }
-      std::cout << "3\n";
-      yolov5(roi);
-      for (auto & feature : features)
-      {
-        feature->m_buffers.release_read_buffer();
-      }
 
-      write_image(input_frames[i], roi);
+  std::sort(features.begin(), features.end(), & FeatureData::sort_tensors_by_size);
+  for (size_t i = 0; i < frames_count; i++)
+  {
+    HailoROIPtr roi = std::make_shared< HailoROI >(HailoROI(HailoBBox(0.0f, 0.0f, 1.0f, 1.0f)));
+    for (uint j = 0; j < features.size(); j++)
+    {
+      roi->add_tensor(std::make_shared< HailoTensor >(reinterpret_cast< uint8_t * >(features[j]->m_buffers.get_read_buffer().data()), features[j]->m_vstream_info));
     }
-    unsigned int end_time = std::clock();
-    std::cout << (double)(end_time - start_time)/CLOCKS_PER_SEC << "\n";
+
+    yolov5(roi);
+    for (auto & feature : features)
+    {
+      feature->m_buffers.release_read_buffer();
+    }
+
+    status = write_image(input_images[i], roi);
   }
   return status;
 }
@@ -103,8 +91,8 @@ hailo_status write_image(HailoRGBMat & image, HailoROIPtr roi)
   std::string label = detections[0]->get_label();
   if (label == "person" || label == "car" || label == "motorcycle" || label == "bus" || label == "truck")
   {
-    //std::time_t result = std::time(nullptr);
-    //std::cout << file_name << "\t" << label << "\t" << std::asctime(std::localtime(&result));
+    std::time_t result = std::time(nullptr);
+    std::cout << file_name << "\t" << detections[0]->get_label() << "\t" << std::asctime(std::localtime(&result));
     cv::Mat write_mat;
     cv::cvtColor(image.get_mat(), write_mat, cv::COLOR_RGB2BGR);
     cv::imwrite("/media/ssd/output_images/" + file_name + "/" + gen_random(20) + ".bmp", write_mat);
@@ -299,7 +287,7 @@ bool Camera::read_frame(cv::Mat & out)
 {
   cam_.read(out);
   if (out.empty()) return false;
-  cv::resize(out, out, cv::Size(YOLOV5M_IMAGE_HEIGHT, YOLOV5M_IMAGE_WIDTH), 0, 0, cv::INTER_CUBIC);
+  cv::resize(temp, temp, cv::Size(YOLOV5M_IMAGE_HEIGHT, YOLOV5M_IMAGE_WIDTH), 0, 0, cv::INTER_CUBIC);
   return true;
 }
 
@@ -352,7 +340,16 @@ int main()
   rtps_file.open("rtps.txt");
   std::vector< Camera > rtps_cams = read_rtps(rtps_file);
   rtps_file.close();
-  std::vector< HailoRGBMat > input_frames = read_frames(rtps_cams);
-  custom_infer(input_frames);
+
+  auto status = HAILO_SUCCESS;
+  while (status == HAILO_SUCCESS)
+  {
+    std::vector< HailoRGBMat > input_frames = read_frames(rtps_cams);
+    unsigned int start_time = std::clock();
+    status = custom_infer(input_frames);
+    unsigned int end_time = std::clock();
+    std::cout << (double)(end_time - start_time)/CLOCKS_PER_SEC << "\n";
+  }
+
   return HAILO_SUCCESS;
 }
