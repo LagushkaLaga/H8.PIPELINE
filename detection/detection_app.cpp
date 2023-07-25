@@ -96,6 +96,7 @@ hailo_status write_image(HailoRGBMat & image, HailoROIPtr roi)
   std::vector< HailoDetectionPtr > detections = hailo_common::get_hailo_detections(roi);
   if (detections.empty())
   {
+    std::cout << "EMPTY\n";
     return HAILO_SUCCESS;
   }
   std::string label = detections[0]->get_label();
