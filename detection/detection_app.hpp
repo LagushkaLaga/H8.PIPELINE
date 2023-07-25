@@ -80,7 +80,7 @@ class Camera
   public:
     Camera(std::string name, std::string url);
     ~Camera();
-    cv::Mat read_frame(cv::Mat & out);
+    bool read_frame(cv::Mat & out);
     std::string & get_name() noexcept;
     bool is_open() const noexcept;
   private:
