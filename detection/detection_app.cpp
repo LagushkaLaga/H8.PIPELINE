@@ -87,6 +87,7 @@ hailo_status post_processing_all(std::vector< std::shared_ptr< FeatureData > > &
 
 hailo_status write_image(HailoRGBMat & image, HailoROIPtr roi)
 {
+  std::cout << "WRITE_BEFORE\n";
   std::string file_name = image.get_name();
   auto draw_status = draw_all(image, roi, true);
   if (OVERLAY_STATUS_OK != draw_status)
