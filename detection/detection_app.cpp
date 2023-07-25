@@ -95,6 +95,7 @@ hailo_status write_image(HailoRGBMat & image, HailoROIPtr roi)
   }
   
   std::vector< HailoDetectionPtr > detections = hailo_common::get_hailo_detections(roi);
+  std::cout << "WRITE\n";
   if (detections.empty())
   {
     std::cout << "EMPTY\n";
