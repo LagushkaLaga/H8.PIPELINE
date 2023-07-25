@@ -349,7 +349,7 @@ int main()
     std::vector< HailoRGBMat > input_frames = read_frames(rtps_cams);
     status = custom_infer(input_frames);
     unsigned int end_time = std::clock();
-    std::cout << end_time - start_time << "\n";
+    std::cout << (double)(end_time - start_time)/CLOCKS_PER_SEC << "\n";
   }
 
   return HAILO_SUCCESS;
