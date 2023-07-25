@@ -287,7 +287,7 @@ bool Camera::read_frame(cv::Mat & out)
 {
   cam_.read(out);
   if (out.empty()) return false;
-  cv::resize(temp, temp, cv::Size(YOLOV5M_IMAGE_HEIGHT, YOLOV5M_IMAGE_WIDTH), 0, 0, cv::INTER_CUBIC);
+  cv::resize(out, out, cv::Size(YOLOV5M_IMAGE_HEIGHT, YOLOV5M_IMAGE_WIDTH), 0, 0, cv::INTER_CUBIC);
   return true;
 }
 
